@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--<context:annotation-config/>-->
+
+    <context:component-scan base-package="com.example.test,com.example.ioc_test" />
+
+
+    <bean id="people" class="com.example.test.People" scope="prototype"
+          depends-on="address" init-method="init" destroy-method="destroy">
+        <property name="name" value="Way" ></property>
+        <property name="address" ref="address"></property>
+    </bean>
+
+    <bean id="address" class="com.example.model.Address">
+        <constructor-arg index="0" value="浙江省"></constructor-arg>
+        <constructor-arg index="1" value="杭州市"></constructor-arg>
+        <constructor-arg index="2" value="滨江区"></constructor-arg>
+    </bean>
+
+
+    <bean id="schoolFactory" class="com.example.test.SchoolFactory"></bean>
+
+    <bean id = "helloBean" class="com.example.ioc_test.HelloBean" init-method="init"
+          destroy-method="dispose" scope="prototype" ></bean>
+
+    <bean id="eventTest"  class="com.example.ioc_test.EventTest" ></bean>
+
+    <bean init-method="init" destroy-method="destroy" id="postConstructTest" class="com.example.ioc_test.PostConstructTest"></bean>
+    <bean class="com.example.ioc_test.PostConstructTest.BBB"></bean>
+
+    <bean id="a" class="com.example.depends_on_test.A"></bean>
+    <bean id="b" class="com.example.depends_on_test.B" depends-on="a"></bean>
+
+</beans>

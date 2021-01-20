@@ -1,0 +1,3 @@
+2020-6-12 
+添加在dubbo-demo中添加dubbospi 的ioc和aop的示例
+增加了aop的实现方式 ,aspjectj的注解方式和配置方式，ProxyFactoryBean和AutoProxyCreator，这两种比较复杂，实际使用价值不大，共4种方式

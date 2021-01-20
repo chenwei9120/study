@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd">
+    <!--default-autowire="byType"--><!--它默认是按照类型来自动装配的，即byType。自动装配同样需要set方法-->
+    <context:annotation-config></context:annotation-config>
+
+    <!--<context:component-scan base-package="com.example.depends_on_test" />-->
+
+    <bean id="a" class="com.example.depends_on_test.A"></bean>
+    <!--p:a-ref="a" --><!--property 的简写，需要set方法-->
+    <bean id="b" class="com.example.depends_on_test.B" depends-on="a"></bean>
+    <!--<bean id="b" class="com.example.depends_on_test.B">-->
+        <!--<property name="a" ref="a"></property>-->
+    <!--</bean>-->
+</beans>

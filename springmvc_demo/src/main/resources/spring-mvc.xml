@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--开启mvc注解支持-->
+    <mvc:annotation-driven />
+
+    <!--开启扫描器 扫描controller标签-->
+    <context:component-scan base-package="com.bit.controller">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
+
+    <!--静态资源放行-->
+    <mvc:resources mapping="/html/**" location="WEB-INF/web/static/" />
+
+    <bean name="/" class="com.bit.controller.BeanNameController"></bean>
+    <bean name="/hello.do" class="com.bit.controller.SimpleController"></bean>
+    <bean name="/hi.do" class="com.bit.controller.BeanNameController"></bean>
+    <bean name="/server.do" class="com.bit.controller.ServletController"></bean>
+    <bean class = "org.springframework.web.servlet.handler.SimpleServletHandlerAdapter" />
+
+    <!--避免IE执行AJAX时，返回JSON出现下载文件 -->
+    <bean id="mappingJacksonHttpMessageConverter"
+          class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+        <property name="supportedMediaTypes">
+            <list>
+                <value>text/html;charset=UTF-8</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 配置拦截器 -->
+    <mvc:interceptors>
+        <!-- 配置一个全局拦截器，拦截所有请求 -->
+        <!--<bean class="com.bit.controller.CustomInterceptor" />-->
+        <mvc:interceptor>
+            <!--<mvc:mapping path="/api/**" />-->
+            <mvc:mapping path="/**" />
+            <!--这样配置，将拦截所有springmvc的url-->
+            <bean class="com.bit.controller.CustomInterceptor"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+    <!--配置文件上传使用解析器-->
+    <!--<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">-->
+        <!--&lt;!&ndash; 指定字符集为utf-8 &ndash;&gt;-->
+        <!--<property name="defaultEncoding" value="UTF-8"></property>-->
+
+        <!--&lt;!&ndash;&lt;!&ndash; 指定上传文件最大尺寸 &ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<property name="maxUploadSize" value="10240"/>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;&lt;!&ndash; 指定文件载入内存大小 &ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<property name="maxInMemorySize" value="1024"/>&ndash;&gt;-->
+
+        <!--&lt;!&ndash;&lt;!&ndash; 设置延时解析文件 &ndash;&gt;&ndash;&gt;-->
+        <!--&lt;!&ndash;<property name="resolveLazily" value="true"/>&ndash;&gt;-->
+    <!--</bean>-->
+
+    <!-- configure the InternalResourceViewResolver -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
+          id="internalResourceViewResolver">
+        <!-- 前缀 -->
+        <property  name="prefix" value="/WEB-INF/web/static/" />
+        <!-- 后缀 -->
+        <property name="suffix" value=".jsp" />
+    </bean>
+</beans>
