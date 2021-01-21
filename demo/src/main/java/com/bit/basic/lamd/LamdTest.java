@@ -200,7 +200,7 @@ public class LamdTest {
 //        numbers.parallelStream()
 //                .forEach(System.out::println);
         numbers.stream().parallel().forEach(x -> {
-                    list.add("aaaa");
+                    list.add("bbbbbb");
                 }
         );
     }
